@@ -4,6 +4,7 @@ from app import app
 from models import db, Exercise, Workout, WorkoutExercise
 
 
+
 def seed_database():
     with app.app_context():
         db.drop_all()
