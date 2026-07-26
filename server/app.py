@@ -3,8 +3,8 @@ from flask_migrate import Migrate
 from marshmallow import ValidationError
 from sqlalchemy.exc import IntegrityError
 
-from .models import db, Exercise, Workout, WorkoutExercise
-from .schemas import ExerciseSchema, WorkoutSchema, WorkoutExerciseSchema
+from models import db, Exercise, Workout, WorkoutExercise
+from schemas import ExerciseSchema, WorkoutSchema, WorkoutExerciseSchema
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
