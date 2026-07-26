@@ -1,7 +1,7 @@
 from datetime import date
 
-from app import app
-from models import db, Exercise, Workout, WorkoutExercise
+from .app import app
+from .models import db, Exercise, Workout, WorkoutExercise
 
 
 

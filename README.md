@@ -29,7 +29,7 @@ pipenv shell
 1. Set the Flask application path:
 
 ```bash
-export FLASK_APP=server.app
+export FLASK_APP=wsgi
 ```
 
 2. Initialize migrations:
@@ -63,8 +63,24 @@ pipenv run python -m server.seed
 Start the Flask server:
 
 ```bash
-export FLASK_APP=server.app
+export FLASK_APP=wsgi
 flask run --port 5555
+```
+
+## Seed Reset
+
+The seed file will reset the database before inserting starter data. Run it again to reset the local data:
+
+```bash
+pipenv run python -m server.seed
+```
+
+## Tests
+
+Run the automated test suite:
+
+```bash
+pipenv run python -m unittest discover -s tests
 ```
 
 ## API Endpoints

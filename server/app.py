@@ -3,8 +3,9 @@ from flask_migrate import Migrate
 from marshmallow import ValidationError
 from sqlalchemy.exc import IntegrityError
 
-from models import db, Exercise, Workout, WorkoutExercise
-from schemas import ExerciseSchema, WorkoutSchema, WorkoutExerciseSchema
+from .models import db, Exercise, Workout, WorkoutExercise  
+from .schemas import ExerciseSchema, WorkoutSchema, WorkoutExerciseSchema  
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -32,7 +33,7 @@ def list_workouts():
 
 @app.route('/workouts/<int:workout_id>', methods=['GET'])
 def get_workout(workout_id):
-    workout = Workout.query.get(workout_id)
+    workout = db.session.get(Workout, workout_id)
     if workout is None:
         return error_response('Workout not found', 404)
     return jsonify(workout_schema.dump(workout)), 200
@@ -56,7 +57,7 @@ def create_workout():
 
 @app.route('/workouts/<int:workout_id>', methods=['DELETE'])
 def delete_workout(workout_id):
-    workout = Workout.query.get(workout_id)
+    workout = db.session.get(Workout, workout_id)
     if workout is None:
         return error_response('Workout not found', 404)
     db.session.delete(workout)
@@ -72,7 +73,7 @@ def list_exercises():
 
 @app.route('/exercises/<int:exercise_id>', methods=['GET'])
 def get_exercise(exercise_id):
-    exercise = Exercise.query.get(exercise_id)
+    exercise = db.session.get(Exercise, exercise_id)
     if exercise is None:
         return error_response('Exercise not found', 404)
     return jsonify(exercise_schema.dump(exercise)), 200
@@ -96,7 +97,7 @@ def create_exercise():
 
 @app.route('/exercises/<int:exercise_id>', methods=['DELETE'])
 def delete_exercise(exercise_id):
-    exercise = Exercise.query.get(exercise_id)
+    exercise = db.session.get(Exercise, exercise_id)
     if exercise is None:
         return error_response('Exercise not found', 404)
     db.session.delete(exercise)
@@ -106,10 +107,10 @@ def delete_exercise(exercise_id):
 
 @app.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/workout_exercises', methods=['POST'])
 def add_exercise_to_workout(workout_id, exercise_id):
-    workout = Workout.query.get(workout_id)
+    workout = db.session.get(Workout, workout_id)
     if workout is None:
         return error_response('Workout not found', 404)
-    exercise = Exercise.query.get(exercise_id)
+    exercise = db.session.get(Exercise, exercise_id)
     if exercise is None:
         return error_response('Exercise not found', 404)
 
